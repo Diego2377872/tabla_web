@@ -1,29 +1,25 @@
-const { Octokit } = require("@octokit/core");
+const fs = require("fs");
+const path = require("path");
 
-exports.handler = async function () {
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.REPO_OWNER;
-  const repo = process.env.REPO_NAME;
-
-  const octokit = new Octokit({ auth: token });
-
+exports.handler = async () => {
   try {
-    const file = await octokit.request("GET /repos/{owner}/{repo}/contents/data.json", {
-      owner,
-      repo,
-      path: "data.json"
-    });
+    const filePath = path.join(__dirname, "../../data/registros.json");
 
-    const content = Buffer.from(file.data.content, "base64").toString("utf8");
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, "[]", "utf-8");
+    }
+
+    const contenido = fs.readFileSync(filePath, "utf-8");
+    const datos = JSON.parse(contenido);
+
     return {
       statusCode: 200,
-      body: content
+      body: JSON.stringify(datos),
     };
   } catch (error) {
-    console.error("Error al obtener datos:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: "Error al leer los datos", detalle: error.message }),
     };
   }
 };
