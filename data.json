@@ -83,5 +83,20 @@
       "monto": "120000",
       "pagado": "no"
     }
+  ],
+  [
+    {
+      "fecha": "2025-06-01",
+      "fecha_viaje": "2025-06-28",
+      "actividad": "AEP",
+      "institucion": "Mag",
+      "km_salida": "188888",
+      "lugar_evento": "aex",
+      "expediente": "12000",
+      "informe": "Reunión ",
+      "estado": "Control ",
+      "monto": "23565",
+      "pagado": "Si"
+    }
   ]
 ]
