@@ -1,0 +1,9 @@
+{
+  "name": "registro-actividades",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/core": "^5.0.0"
+  }
+}
