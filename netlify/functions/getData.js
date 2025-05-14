@@ -11,19 +11,29 @@ exports.handler = async function () {
     const file = await octokit.request("GET /repos/{owner}/{repo}/contents/data.json", {
       owner,
       repo,
-      path: "data.json"
+      path: "data.json",
     });
 
     const content = Buffer.from(file.data.content, "base64").toString("utf8");
     return {
       statusCode: 200,
-      body: content
+      headers: { "Content-Type": "application/json" },
+      body: content,
     };
   } catch (error) {
+    if (error.status === 404) {
+      console.warn("Archivo no encontrado, devolviendo lista vacía.");
+      return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: "[]", // Lista vacía si el archivo no existe
+      };
+    }
+
     console.error("Error al obtener datos:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
