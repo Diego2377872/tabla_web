@@ -53,5 +53,20 @@
       "monto": "12300",
       "pagado": ""
     }
+  ],
+  [
+    {
+      "fecha": "2025-05-04",
+      "fecha_viaje": "2025-05-16",
+      "actividad": "Reunión FAO",
+      "institucion": "Clínica ",
+      "km_salida": "10.000",
+      "lugar_evento": "FAO ",
+      "expediente": "12000",
+      "informe": "Actividad ",
+      "estado": "Control ",
+      "monto": "20000",
+      "pagado": "Si"
+    }
   ]
 ]
