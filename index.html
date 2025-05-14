@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro de Actividades</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
   <div class="max-w-7xl mx-auto p-4">
     <h1 class="text-3xl font-bold mb-4 text-center">Registro de Actividades</h1>
 
-    <!-- Filtro de búsqueda -->
-    <input type="text" id="filtro" placeholder="Buscar actividad..." class="border p-2 mb-4 w-full" oninput="filtrarTabla(this.value)" />
-
     <form id="activity-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded shadow">
+      <!-- campos del formulario -->
       <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha" />
       <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha de Viaje" />
       <input type="text" id="actividad" placeholder="Actividad" required class="border p-2 rounded" />
@@ -31,33 +28,30 @@
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 col-span-2 md:col-span-4">Guardar</button>
     </form>
 
-    <!-- Botón de exportar y tabla -->
+    <!-- Tabla con scroll horizontal y celdas expandibles -->
     <div class="overflow-x-auto bg-white p-4 rounded shadow">
       <button onclick="exportarCSV()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
-      <button onclick="exportarExcel()" class="mb-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Exportar Excel</button>
-      <div class="max-h-96 overflow-y-auto">
-        <table class="min-w-full table-auto text-sm">
-          <thead class="bg-gray-200 sticky top-0 z-10">
-            <tr>
-              <th onclick="ordenarPor('fecha')" class="cursor-pointer hover:underline">Fecha ⬍</th>
-              <th onclick="ordenarPor('fecha_viaje')" class="cursor-pointer hover:underline">Fecha Viaje ⬍</th>
-              <th onclick="ordenarPor('actividad')" class="cursor-pointer hover:underline">Actividad ⬍</th>
-              <th onclick="ordenarPor('institucion')" class="cursor-pointer hover:underline">Institución ⬍</th>
-              <th onclick="ordenarPor('km_salida')" class="cursor-pointer hover:underline">Km Salida ⬍</th>
-              <th onclick="ordenarPor('km_regreso')" class="cursor-pointer hover:underline">Km Regreso ⬍</th>
-              <th onclick="ordenarPor('km_recorrido')" class="cursor-pointer hover:underline">Km Recorrido ⬍</th>
-              <th onclick="ordenarPor('lugar_evento')" class="cursor-pointer hover:underline">Lugar Evento ⬍</th>
-              <th onclick="ordenarPor('expediente')" class="cursor-pointer hover:underline">Expediente ⬍</th>
-              <th onclick="ordenarPor('informe')" class="cursor-pointer hover:underline">Informe ⬍</th>
-              <th onclick="ordenarPor('estado')" class="cursor-pointer hover:underline">Estado ⬍</th>
-              <th onclick="ordenarPor('monto')" class="cursor-pointer hover:underline">Monto ⬍</th>
-              <th onclick="ordenarPor('pagado')" class="cursor-pointer hover:underline">Pagado ⬍</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tabla-actividades" class="divide-y divide-gray-200"></tbody>
-        </table>
-      </div>
+      <table class="min-w-full table-auto text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th>Fecha</th>
+            <th>Fecha Viaje</th>
+            <th>Actividad</th>
+            <th>Institución</th>
+            <th>Km Salida</th>
+            <th>Km Regreso</th>
+            <th>Km Recorrido</th>
+            <th>Lugar Evento</th>
+            <th>Expediente</th>
+            <th class="max-w-xs">Informe</th>
+            <th>Estado</th>
+            <th>Monto</th>
+            <th>Pagado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-actividades" class="divide-y"></tbody>
+      </table>
     </div>
   </div>
 
@@ -67,7 +61,6 @@
 
     let registros = [];
     let indiceEdicion = null;
-    let ordenAsc = true;
 
     async function cargarDatos() {
       try {
@@ -87,7 +80,7 @@
       tbody.innerHTML = "";
       registros.forEach((item, index) => {
         tbody.innerHTML += `
-          <tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+          <tr>
             <td>${item.fecha}</td>
             <td>${item.fecha_viaje || ""}</td>
             <td>${item.actividad}</td>
@@ -97,13 +90,13 @@
             <td>${item.km_recorrido || ""}</td>
             <td>${item.lugar_evento || ""}</td>
             <td>${item.expediente || ""}</td>
-            <td title="${item.informe}">${item.informe?.slice(0, 30) || ''}...</td>
+            <td class="whitespace-pre-wrap break-words max-w-xs">${item.informe || ""}</td>
             <td>${item.estado || ""}</td>
             <td>${item.monto || ""}</td>
             <td>${item.pagado || ""}</td>
             <td class="space-x-2">
-              <button onclick="editar(${index})" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
-              <button onclick="eliminar(${index})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Eliminar</button>
+              <button onclick="editar(${index})" class="text-blue-600 hover:underline">Editar</button>
+              <button onclick="eliminar(${index})" class="text-red-600 hover:underline">Eliminar</button>
             </td>
           </tr>`;
       });
@@ -186,33 +179,6 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    }
-
-    function exportarExcel() {
-      const ws = XLSX.utils.json_to_sheet(registros);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Actividades");
-      XLSX.writeFile(wb, "actividades.xlsx");
-    }
-
-    function ordenarPor(campo) {
-      registros.sort((a, b) => {
-        if (!a[campo] || !b[campo]) return 0;
-        return ordenAsc
-          ? a[campo].localeCompare(b[campo])
-          : b[campo].localeCompare(a[campo]);
-      });
-      ordenAsc = !ordenAsc;
-      renderizarTabla();
-    }
-
-    function filtrarTabla(query) {
-      const filtro = query.toLowerCase();
-      const filtrados = registros.filter(r => 
-        r.actividad?.toLowerCase().includes(filtro) || 
-        r.institucion?.toLowerCase().includes(filtro)
-      );
-      renderizarTabla(filtrados);
     }
 
     cargarDatos();
