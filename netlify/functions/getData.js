@@ -1,17 +1,22 @@
-const { Octokit } = require("@octokit/core");
+const fs = require("fs");
+const path = require("path");
 
 exports.handler = async () => {
-  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+  const dataFile = path.resolve(__dirname, "data.json");
 
-  const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-    owner: process.env.REPO_OWNER,
-    repo: process.env.REPO_NAME,
-    path: 'data.json',
-  });
+  try {
+    let items = [];
 
-  const content = Buffer.from(response.data.content, 'base64').toString();
-  return {
-    statusCode: 200,
-    body: content,
-  };
+    if (fs.existsSync(dataFile)) {
+      const fileData = fs.readFileSync(dataFile, "utf8");
+      items = JSON.parse(fileData);
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(items),
+    };
+  } catch (error) {
+    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+  }
 };
