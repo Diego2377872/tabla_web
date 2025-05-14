@@ -178,7 +178,7 @@
 
     function formatearMiles(valor) {
       if (!valor) return "";
-      return Number(valor).toLocaleString();
+      return Number(valor).toLocaleString('es-ES').replace(/,/g, ".");
     }
 
     function formatearNumero(event) {
