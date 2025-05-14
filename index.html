@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Actividades</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Registro de Actividades</h1>
+
+  <form id="activity-form">
+    <input type="date" id="fecha" required />
+    <input type="text" id="actividad" placeholder="Actividad" required />
+    <input type="text" id="institucion" placeholder="Institución" required />
+    <button type="submit">Guardar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Actividad</th>
+        <th>Institución</th>
+      </tr>
+    </thead>
+    <tbody id="tabla-actividades"></tbody>
+  </table>
+
+  <script>
+    const API_GET = "/.netlify/functions/getData";
+    const API_POST = "/.netlify/functions/saveData";
+
+    async function cargarDatos() {
+      const res = await fetch(API_GET);
+      const data = await res.json();
+      const tbody = document.getElementById("tabla-actividades");
+      tbody.innerHTML = "";
+      data.forEach((item) => {
+        const fila = `<tr><td>${item.fecha}</td><td>${item.actividad}</td><td>${item.institucion}</td></tr>`;
+        tbody.innerHTML += fila;
+      });
+    }
+
+    document.getElementById("activity-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nuevoRegistro = {
+        fecha: document.getElementById("fecha").value,
+        actividad: document.getElementById("actividad").value,
+        institucion: document.getElementById("institucion").value,
+      };
+
+      const res = await fetch(API_POST, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoRegistro),
+      });
+
+      if (res.ok) {
+        cargarDatos();
+        e.target.reset();
+      } else {
+        alert("Error al guardar.");
+      }
+    });
+
+    cargarDatos();
+  </script>
+</body>
+</html>
