@@ -3,54 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registro de Viajes UGR/MAG</title>
+  <title>Registro de Actividades</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+    th {
+      background-color: #f3f4f6;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
+  <header class="bg-white px-4 py-2 shadow">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-sm text-gray-600">
+      <div>&copy; Elaborado por Diego J. Rodriguez Zayas</div>
+    </div>
+  </header>
+
   <div class="max-w-7xl mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4 text-center">Registro de Viajes UGR/MAG</h1>
+    <h1 class="text-3xl font-bold mb-4 text-center">Registro de Actividades</h1>
 
     <form id="activity-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded shadow">
       <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha Inicial del Viaje" />
       <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha Final del Viaje" />
       <input type="text" id="institucion" placeholder="Institución" required class="border p-2 rounded" />
-      <input type="number" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" oninput="formatearNumero(event)" />
-      <input type="number" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" oninput="formatearNumero(event)" />
-      <input type="number" id="km_recorrido" placeholder="Km Recorrido" class="border p-2 rounded" oninput="formatearNumero(event)" />
+      <input type="number" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" />
+      <input type="number" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" />
+      <input type="number" id="km_recorrido" placeholder="Km Recorrido" class="border p-2 rounded" />
       <input type="text" id="lugar_evento" placeholder="Lugar del Evento" class="border p-2 rounded" />
       <input type="text" id="expediente" placeholder="Nº de Expediente" class="border p-2 rounded" />
       <input type="text" id="informe" placeholder="Informe de la Jornada" class="border p-2 rounded" />
       <input type="text" id="estado" placeholder="Estado Actual" class="border p-2 rounded" />
-      <input type="number" id="monto" placeholder="Monto" class="border p-2 rounded" oninput="formatearNumero(event)" />
+      <input type="number" id="monto" placeholder="Monto" class="border p-2 rounded" />
       <input type="text" id="pagado" placeholder="Pagado (Sí/No)" class="border p-2 rounded" />
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 col-span-2 md:col-span-4">Guardar</button>
     </form>
 
     <div class="overflow-x-auto bg-white p-4 rounded shadow">
       <button onclick="exportarCSV()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
-      <table class="min-w-full table-auto text-sm border-separate border-spacing-0">
-        <thead class="bg-gray-200">
+      <table class="min-w-full text-sm table-auto border-collapse">
+        <thead>
           <tr>
-            <th class="border px-4 py-2">Fecha Inicial del Viaje</th>
-            <th class="border px-4 py-2">Fecha Final del Viaje</th>
-            <th class="border px-4 py-2">Institución</th>
-            <th class="border px-4 py-2">Km Salida</th>
-            <th class="border px-4 py-2">Km Regreso</th>
-            <th class="border px-4 py-2">Km Recorrido</th>
-            <th class="border px-4 py-2">Lugar Evento</th>
-            <th class="border px-4 py-2">Expediente</th>
-            <th class="border px-4 py-2 max-w-xs">Informe</th>
-            <th class="border px-4 py-2">Estado</th>
-            <th class="border px-4 py-2">Monto</th>
-            <th class="border px-4 py-2">Pagado</th>
-            <th class="border px-4 py-2">Acciones</th>
+            <th>Fecha Inicial del Viaje</th>
+            <th>Fecha Final del Viaje</th>
+            <th>Institución</th>
+            <th>Km Salida</th>
+            <th>Km Regreso</th>
+            <th>Km Recorrido</th>
+            <th>Lugar Evento</th>
+            <th>Expediente</th>
+            <th>Informe</th>
+            <th>Estado</th>
+            <th>Monto</th>
+            <th>Pagado</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="tabla-actividades" class="divide-y">
-        </tbody>
+        <tbody id="tabla-actividades" class="divide-y divide-gray-300"></tbody>
       </table>
     </div>
   </div>
+
+  <footer class="mt-10 py-4 bg-white text-center text-sm text-gray-600 border-t border-gray-300">
+    &copy; Elaborado por Diego J. Rodriguez Zayas
+  </footer>
 
   <script>
     const API_GET = "/.netlify/functions/getData";
@@ -72,25 +90,29 @@
       }
     }
 
+    function formatNumber(num) {
+      return num ? Number(num).toLocaleString("de-DE") : "";
+    }
+
     function renderizarTabla() {
       const tbody = document.getElementById("tabla-actividades");
       tbody.innerHTML = "";
       registros.forEach((item, index) => {
         tbody.innerHTML += `
           <tr>
-            <td class="border px-4 py-2">${item.fecha}</td>
-            <td class="border px-4 py-2">${item.fecha_viaje || ""}</td>
-            <td class="border px-4 py-2">${item.institucion}</td>
-            <td class="border px-4 py-2">${formatearMiles(item.km_salida)}</td>
-            <td class="border px-4 py-2">${formatearMiles(item.km_regreso)}</td>
-            <td class="border px-4 py-2">${formatearMiles(item.km_recorrido)}</td>
-            <td class="border px-4 py-2">${item.lugar_evento || ""}</td>
-            <td class="border px-4 py-2">${item.expediente || ""}</td>
-            <td class="border px-4 py-2 whitespace-pre-wrap break-words max-w-xs">${item.informe || ""}</td>
-            <td class="border px-4 py-2">${item.estado || ""}</td>
-            <td class="border px-4 py-2">${formatearMiles(item.monto)}</td>
-            <td class="border px-4 py-2">${item.pagado || ""}</td>
-            <td class="border px-4 py-2 space-x-2">
+            <td>${item.fecha}</td>
+            <td>${item.fecha_viaje || ""}</td>
+            <td>${item.institucion}</td>
+            <td>${formatNumber(item.km_salida)}</td>
+            <td>${formatNumber(item.km_regreso)}</td>
+            <td>${formatNumber(item.km_recorrido)}</td>
+            <td>${item.lugar_evento || ""}</td>
+            <td>${item.expediente || ""}</td>
+            <td style="white-space: pre-wrap;">${item.informe || ""}</td>
+            <td>${item.estado || ""}</td>
+            <td>${formatNumber(item.monto)}</td>
+            <td>${item.pagado || ""}</td>
+            <td class="space-x-2">
               <button onclick="editar(${index})" class="text-blue-600 hover:underline">Editar</button>
               <button onclick="eliminar(${index})" class="text-red-600 hover:underline">Eliminar</button>
             </td>
@@ -137,14 +159,14 @@
         fecha: document.getElementById("fecha").value,
         fecha_viaje: document.getElementById("fecha_viaje").value,
         institucion: document.getElementById("institucion").value,
-        km_salida: document.getElementById("km_salida").value.replace(/\D/g, ""),
-        km_regreso: document.getElementById("km_regreso").value.replace(/\D/g, ""),
-        km_recorrido: document.getElementById("km_recorrido").value.replace(/\D/g, ""),
+        km_salida: document.getElementById("km_salida").value,
+        km_regreso: document.getElementById("km_regreso").value,
+        km_recorrido: document.getElementById("km_recorrido").value,
         lugar_evento: document.getElementById("lugar_evento").value,
         expediente: document.getElementById("expediente").value,
         informe: document.getElementById("informe").value,
         estado: document.getElementById("estado").value,
-        monto: document.getElementById("monto").value.replace(/\D/g, ""),
+        monto: document.getElementById("monto").value,
         pagado: document.getElementById("pagado").value,
       };
 
@@ -174,15 +196,6 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    }
-
-    function formatearMiles(valor) {
-      if (!valor) return "";
-      return Number(valor).toLocaleString('es-ES').replace(/,/g, ".");
-    }
-
-    function formatearNumero(event) {
-      event.target.value = event.target.value.replace(/\D/g, "");
     }
 
     cargarDatos();
