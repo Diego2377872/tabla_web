@@ -1,4 +1,6 @@
 {
+  "name": "tabla_web",
+  "version": "1.0.0",
   "dependencies": {
     "@octokit/core": "^4.2.0"
   }
