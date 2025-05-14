@@ -15,9 +15,9 @@
       <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha de Viaje" />
       <input type="text" id="actividad" placeholder="Actividad" required class="border p-2 rounded" />
       <input type="text" id="institucion" placeholder="Institución" required class="border p-2 rounded" />
-      <input type="text" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" />
-      <input type="text" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" />
-      <input type="text" id="km_recorrido" placeholder="Km Recorrido" class="border p-2 rounded" />
+      <input type="number" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" />
+      <input type="number" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" />
+      <input type="number" id="km_recorrido" placeholder="Km Recorrido" class="border p-2 rounded" />
       <input type="text" id="lugar_evento" placeholder="Lugar del Evento" class="border p-2 rounded" />
       <input type="text" id="expediente" placeholder="Nº de Expediente" class="border p-2 rounded" />
       <input type="text" id="informe" placeholder="Informe de la Jornada" class="border p-2 rounded" />
@@ -37,6 +37,8 @@
             <th>Actividad</th>
             <th>Institución</th>
             <th>Km Salida</th>
+            <th>Km Regreso</th>
+            <th>Km Recorrido</th>
             <th>Lugar Evento</th>
             <th>Expediente</th>
             <th>Informe</th>
@@ -56,12 +58,19 @@
     const API_POST = "/.netlify/functions/saveData";
 
     let registros = [];
+    let indiceEdicion = null;
 
     async function cargarDatos() {
-      const res = await fetch(API_GET);
-      const data = await res.json();
-      registros = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-      renderizarTabla();
+      try {
+        const res = await fetch(API_GET);
+        if (!res.ok) throw new Error("Error al obtener datos");
+        const data = await res.json();
+        registros = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+        renderizarTabla();
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+        alert("No se pudieron cargar los datos.");
+      }
     }
 
     function renderizarTabla() {
@@ -75,6 +84,8 @@
             <td>${item.actividad}</td>
             <td>${item.institucion}</td>
             <td>${item.km_salida || ""}</td>
+            <td>${item.km_regreso || ""}</td>
+            <td>${item.km_recorrido || ""}</td>
             <td>${item.lugar_evento || ""}</td>
             <td>${item.expediente || ""}</td>
             <td>${item.informe || ""}</td>
@@ -96,7 +107,7 @@
           document.getElementById(key).value = item[key];
         }
       }
-      eliminar(index); // elimina para volver a guardar como nuevo
+      indiceEdicion = index;
     }
 
     function eliminar(index) {
@@ -105,15 +116,20 @@
     }
 
     async function guardarTodo() {
-      const res = await fetch(API_POST, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registros),
-      });
-      if (res.ok) {
-        cargarDatos();
-      } else {
-        alert("Error al guardar.");
+      try {
+        const res = await fetch(API_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(registros),
+        });
+        if (res.ok) {
+          cargarDatos();
+        } else {
+          alert("Error al guardar.");
+        }
+      } catch (error) {
+        console.error("Error al guardar datos:", error);
+        alert("No se pudieron guardar los datos.");
       }
     }
 
@@ -125,6 +141,8 @@
         actividad: document.getElementById("actividad").value,
         institucion: document.getElementById("institucion").value,
         km_salida: document.getElementById("km_salida").value,
+        km_regreso: document.getElementById("km_regreso").value,
+        km_recorrido: document.getElementById("km_recorrido").value,
         lugar_evento: document.getElementById("lugar_evento").value,
         expediente: document.getElementById("expediente").value,
         informe: document.getElementById("informe").value,
@@ -132,13 +150,21 @@
         monto: document.getElementById("monto").value,
         pagado: document.getElementById("pagado").value,
       };
-      registros.push(nuevoRegistro);
+
+      if (indiceEdicion !== null) {
+        registros[indiceEdicion] = nuevoRegistro;
+        indiceEdicion = null;
+      } else {
+        registros.push(nuevoRegistro);
+      }
+
       guardarTodo();
       e.target.reset();
     });
 
     function exportarCSV() {
-      const encabezado = Object.keys(registros[0] || {}).join(",");
+      if (registros.length === 0) return;
+      const encabezado = Object.keys(registros[0]).join(",");
       const filas = registros.map(row =>
         Object.values(row).map(val => `"${val ?? ""}"`).join(",")
       );
