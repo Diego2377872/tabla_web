@@ -185,5 +185,179 @@
         "pagado": "Si"
       }
     ]
+  ],
+  [
+    {
+      "fecha": "2025-05-13",
+      "actividad": "Permiso ",
+      "institucion": "Clínica "
+    },
+    {
+      "fecha": "2025-05-14",
+      "actividad": "hola",
+      "institucion": "que tal"
+    },
+    [
+      {
+        "fecha": "2025-05-11",
+        "fecha_viaje": "2025-05-14",
+        "actividad": "Reunión FAO",
+        "institucion": "FAO ",
+        "km_salida": "10.000",
+        "lugar_evento": "FAO ",
+        "expediente": "20000",
+        "informe": "Actividad ",
+        "estado": "Control ",
+        "monto": "10000",
+        "pagado": "Si"
+      }
+    ],
+    [
+      {
+        "fecha": "2025-05-14",
+        "fecha_viaje": "2025-05-17",
+        "actividad": "Plan",
+        "institucion": "FAO",
+        "km_salida": "65400",
+        "lugar_evento": "DGP",
+        "expediente": "1100",
+        "informe": "Acti",
+        "estado": "DGAF",
+        "monto": "12300",
+        "pagado": ""
+      }
+    ],
+    [
+      {
+        "fecha": "2025-05-04",
+        "fecha_viaje": "2025-05-16",
+        "actividad": "Reunión FAO",
+        "institucion": "Clínica ",
+        "km_salida": "10.000",
+        "lugar_evento": "FAO ",
+        "expediente": "12000",
+        "informe": "Actividad ",
+        "estado": "Control ",
+        "monto": "20000",
+        "pagado": "Si"
+      }
+    ],
+    [
+      {
+        "fecha": "2025-05-13",
+        "fecha_viaje": "2025-05-15",
+        "actividad": "Reunion DEAG",
+        "institucion": "Home",
+        "km_salida": "10000",
+        "lugar_evento": "DGP",
+        "expediente": "10000",
+        "informe": "actividad",
+        "estado": "DGAF",
+        "monto": "120000",
+        "pagado": "no"
+      }
+    ],
+    [
+      {
+        "fecha": "2025-06-01",
+        "fecha_viaje": "2025-06-28",
+        "actividad": "AEP",
+        "institucion": "Mag",
+        "km_salida": "188888",
+        "lugar_evento": "aex",
+        "expediente": "12000",
+        "informe": "Reunión ",
+        "estado": "Control ",
+        "monto": "23565",
+        "pagado": "Si"
+      }
+    ],
+    [
+      {
+        "fecha": "2025-05-13",
+        "actividad": "Permiso ",
+        "institucion": "Clínica "
+      },
+      {
+        "fecha": "2025-05-14",
+        "actividad": "hola",
+        "institucion": "que tal"
+      },
+      [
+        {
+          "fecha": "2025-05-11",
+          "fecha_viaje": "2025-05-14",
+          "actividad": "Reunión FAO",
+          "institucion": "FAO ",
+          "km_salida": "10.000",
+          "lugar_evento": "FAO ",
+          "expediente": "20000",
+          "informe": "Actividad ",
+          "estado": "Control ",
+          "monto": "10000",
+          "pagado": "Si"
+        }
+      ],
+      [
+        {
+          "fecha": "2025-05-14",
+          "fecha_viaje": "2025-05-17",
+          "actividad": "Plan",
+          "institucion": "FAO",
+          "km_salida": "65400",
+          "lugar_evento": "DGP",
+          "expediente": "1100",
+          "informe": "Acti",
+          "estado": "DGAF",
+          "monto": "12300",
+          "pagado": ""
+        }
+      ],
+      [
+        {
+          "fecha": "2025-05-04",
+          "fecha_viaje": "2025-05-16",
+          "actividad": "Reunión FAO",
+          "institucion": "Clínica ",
+          "km_salida": "10.000",
+          "lugar_evento": "FAO ",
+          "expediente": "12000",
+          "informe": "Actividad ",
+          "estado": "Control ",
+          "monto": "20000",
+          "pagado": "Si"
+        }
+      ],
+      [
+        {
+          "fecha": "2025-05-13",
+          "fecha_viaje": "2025-05-15",
+          "actividad": "Reunion DEAG",
+          "institucion": "Home",
+          "km_salida": "10000",
+          "lugar_evento": "DGP",
+          "expediente": "10000",
+          "informe": "actividad",
+          "estado": "DGAF",
+          "monto": "120000",
+          "pagado": "no"
+        }
+      ],
+      [
+        {
+          "fecha": "2025-06-01",
+          "fecha_viaje": "2025-06-28",
+          "actividad": "AEP",
+          "institucion": "Mag",
+          "km_salida": "188888",
+          "lugar_evento": "aex",
+          "expediente": "12000",
+          "informe": "Reunión ",
+          "estado": "Control ",
+          "monto": "23565",
+          "pagado": "Si"
+        }
+      ]
+    ]
   ]
 ]
