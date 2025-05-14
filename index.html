@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registro de Viajes UGR/MAG</title>
+  <title>Registro de Actividades</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     th, td {
       border: 1px solid #ccc;
@@ -23,7 +24,7 @@
   </header>
 
   <div class="max-w-7xl mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4 text-center">Registro de Viajes UGR/MAG</h1>
+    <h1 class="text-3xl font-bold mb-4 text-center">Registro de Actividades</h1>
 
     <form id="activity-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded shadow">
       <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha Inicial del Viaje" />
@@ -42,7 +43,10 @@
     </form>
 
     <div class="overflow-x-auto bg-white p-4 rounded shadow">
-      <button onclick="exportarCSV()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
+      <div class="flex gap-2 mb-2">
+        <button onclick="exportarCSV()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
+        <button onclick="exportarExcel()" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Exportar Excel</button>
+      </div>
       <table class="min-w-full text-sm table-auto border-collapse">
         <thead>
           <tr>
@@ -196,6 +200,14 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    }
+
+    function exportarExcel() {
+      if (registros.length === 0) return;
+      const worksheet = XLSX.utils.json_to_sheet(registros);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Actividades");
+      XLSX.writeFile(workbook, "actividades.xlsx");
     }
 
     cargarDatos();
