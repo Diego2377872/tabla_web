@@ -38,5 +38,20 @@
       "monto": "10000",
       "pagado": "Si"
     }
+  ],
+  [
+    {
+      "fecha": "2025-05-14",
+      "fecha_viaje": "2025-05-17",
+      "actividad": "Plan",
+      "institucion": "FAO",
+      "km_salida": "65400",
+      "lugar_evento": "DGP",
+      "expediente": "1100",
+      "informe": "Acti",
+      "estado": "DGAF",
+      "monto": "12300",
+      "pagado": ""
+    }
   ]
 ]
