@@ -1,35 +1,32 @@
-const { Octokit } = require("@octokit/core");
+const fs = require("fs");
+const path = require("path");
 
 exports.handler = async (event) => {
-  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
 
-  const owner = process.env.REPO_OWNER;
-  const repo = process.env.REPO_NAME;
-  const path = "data.json";
+  const dataFile = path.resolve(__dirname, "data.json");
+  const newItem = JSON.parse(event.body);
 
-  const { data: fileData } = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
-    owner,
-    repo,
-    path,
-  });
+  try {
+    let items = [];
 
-  const existingData = JSON.parse(Buffer.from(fileData.content, "base64").toString());
-  const nuevoRegistro = JSON.parse(event.body);
-  existingData.push(nuevoRegistro);
+    if (fs.existsSync(dataFile)) {
+      const fileData = fs.readFileSync(dataFile, "utf8");
+      items = JSON.parse(fileData);
+    }
 
-  const updatedContent = Buffer.from(JSON.stringify(existingData, null, 2)).toString("base64");
+    items.push(newItem);
 
-  await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
-    owner,
-    repo,
-    path,
-    message: "Actualizar data.json",
-    content: updatedContent,
-    sha: fileData.sha,
-  });
+    fs.writeFileSync(dataFile, JSON.stringify(items, null, 2));
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ success: true }),
-  };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Datos guardados correctamente" }),
+    };
+  } catch (error) {
+    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+  }
 };
+
