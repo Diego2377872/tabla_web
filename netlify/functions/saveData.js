@@ -1,32 +1,51 @@
-const fs = require("fs");
-const path = require("path");
+const { Octokit } = require("@octokit/core");
 
-exports.handler = async (event) => {
+exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const dataFile = path.resolve(__dirname, "data.json");
-  const newItem = JSON.parse(event.body);
+  const token = process.env.GITHUB_TOKEN;
+  const owner = process.env.REPO_OWNER;
+  const repo = process.env.REPO_NAME;
+
+  const octokit = new Octokit({ auth: token });
 
   try {
-    let items = [];
+    const newData = JSON.parse(event.body);
 
-    if (fs.existsSync(dataFile)) {
-      const fileData = fs.readFileSync(dataFile, "utf8");
-      items = JSON.parse(fileData);
-    }
+    const file = await octokit.request("GET /repos/{owner}/{repo}/contents/data.json", {
+      owner,
+      repo,
+      path: "data.json",
+    });
 
-    items.push(newItem);
+    const sha = file.data.sha;
+    const content = Buffer.from(file.data.content, "base64").toString();
+    const jsonData = JSON.parse(content);
 
-    fs.writeFileSync(dataFile, JSON.stringify(items, null, 2));
+    jsonData.push(newData);
+
+    const updatedContent = Buffer.from(JSON.stringify(jsonData, null, 2)).toString("base64");
+
+    await octokit.request("PUT /repos/{owner}/{repo}/contents/data.json", {
+      owner,
+      repo,
+      path: "data.json",
+      message: "Actualización desde formulario web",
+      content: updatedContent,
+      sha,
+    });
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Datos guardados correctamente" }),
+      body: JSON.stringify({ message: "Guardado con éxito" }),
     };
   } catch (error) {
-    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+    console.error("Error:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
 };
-
