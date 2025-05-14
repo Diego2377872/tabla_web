@@ -5,95 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro de Actividades</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="max-w-7xl mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4 text-center">Registro de Actividades</h1>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-7xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4 text-blue-700">Registro de Actividades</h1>
 
-    <form id="activity-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded shadow">
-      <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha" />
-      <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha de Viaje" />
-      <input type="text" id="actividad" placeholder="Actividad" required class="border p-2 rounded" />
-      <input type="text" id="institucion" placeholder="Institución" required class="border p-2 rounded" />
-      <input type="number" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" />
-      <input type="number" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" />
-      <input type="text" id="lugar_evento" placeholder="Lugar del Evento" class="border p-2 rounded" />
-      <input type="text" id="expediente" placeholder="Nº de Expediente" class="border p-2 rounded" />
-      <input type="text" id="informe" placeholder="Informe de la Jornada" class="border p-2 rounded" />
-      <input type="text" id="estado" placeholder="Estado Actual" class="border p-2 rounded" />
-      <input type="number" id="monto" placeholder="Monto" class="border p-2 rounded" />
-      <input type="text" id="pagado" placeholder="Pagado (Sí/No)" class="border p-2 rounded" />
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 col-span-2 md:col-span-4">Guardar</button>
+    <form id="activity-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <input type="hidden" id="editIndex" />
+      <input type="date" id="fecha" required class="p-2 border rounded" placeholder="Fecha" />
+      <input type="date" id="fecha_viaje" class="p-2 border rounded" placeholder="Fecha Viaje" />
+      <input type="text" id="actividad" required class="p-2 border rounded" placeholder="Actividad" />
+      <input type="text" id="institucion" class="p-2 border rounded" placeholder="Institución" />
+      <input type="number" id="km_salida" class="p-2 border rounded" placeholder="Km Salida" />
+      <input type="number" id="km_regreso" class="p-2 border rounded" placeholder="Km Regreso" />
+      <input type="text" id="lugar_evento" class="p-2 border rounded" placeholder="Lugar del Evento" />
+      <input type="text" id="expediente" class="p-2 border rounded" placeholder="N° de Expediente" />
+      <input type="text" id="informe" class="p-2 border rounded" placeholder="Informe de la jornada" />
+      <input type="text" id="estado" class="p-2 border rounded" placeholder="Estado Actual" />
+      <input type="number" id="monto" class="p-2 border rounded" placeholder="Monto" />
+      <select id="pagado" class="p-2 border rounded">
+        <option value="">Pagado</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+      <button type="submit" class="col-span-1 md:col-span-2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        Guardar Actividad
+      </button>
     </form>
 
     <div class="overflow-x-auto bg-white p-4 rounded shadow">
-      <button onclick="exportarCSV()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
-      <table class="min-w-full table-auto text-sm">
-        <thead class="bg-gray-200">
+      <button onclick="exportarExcel()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar Excel</button>
+      <table class="min-w-[1500px] w-full text-sm text-left border border-gray-300">
+        <thead class="bg-blue-100">
           <tr>
-            <th>Fecha</th>
-            <th>Fecha Viaje</th>
-            <th>Actividad</th>
-            <th>Institución</th>
-            <th>Km Salida</th>
-            <th>Km Regreso</th>
-            <th>Km Recorrido</th>
-            <th>Lugar Evento</th>
-            <th>Expediente</th>
-            <th>Informe</th>
-            <th>Estado</th>
-            <th>Monto</th>
-            <th>Pagado</th>
-            <th>Acciones</th>
+            <th class="p-2">Fecha</th>
+            <th class="p-2">Fecha Viaje</th>
+            <th class="p-2">Actividad</th>
+            <th class="p-2">Institución</th>
+            <th class="p-2">Km Salida</th>
+            <th class="p-2">Km Regreso</th>
+            <th class="p-2">Km Recorrido</th>
+            <th class="p-2">Lugar Evento</th>
+            <th class="p-2">Expediente</th>
+            <th class="p-2">Informe</th>
+            <th class="p-2">Estado</th>
+            <th class="p-2">Monto</th>
+            <th class="p-2">Pagado</th>
+            <th class="p-2">Acciones</th>
           </tr>
         </thead>
-        <tbody id="tabla-actividades" class="divide-y"></tbody>
+        <tbody id="tabla-actividades" class="divide-y divide-gray-200 bg-white"></tbody>
       </table>
     </div>
   </div>
 
   <script>
-    const API_GET = "/.netlify/functions/getData";
-    const API_POST = "/.netlify/functions/saveData";
-
     let registros = [];
 
-    async function cargarDatos() {
-      const res = await fetch(API_GET);
-      const data = await res.json();
-      registros = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-      renderizarTabla();
+    async function cargarRegistros() {
+      try {
+        const res = await fetch("/.netlify/functions/leer");
+        registros = await res.json();
+        mostrarRegistros();
+      } catch (error) {
+        console.error("Error al cargar:", error);
+      }
     }
 
-    function formatNumber(num) {
-      if (num == null || num === "") return "";
-      return Number(num).toLocaleString("es-ES");
-    }
-
-    function renderizarTabla() {
-      const tbody = document.getElementById("tabla-actividades");
-      tbody.innerHTML = "";
+    function mostrarRegistros() {
+      const tabla = document.getElementById("tabla-actividades");
+      tabla.innerHTML = "";
       registros.forEach((item, index) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${item.fecha}</td>
-            <td>${item.fecha_viaje || ""}</td>
-            <td>${item.actividad}</td>
-            <td>${item.institucion}</td>
-            <td>${formatNumber(item.km_salida)}</td>
-            <td>${formatNumber(item.km_regreso)}</td>
-            <td>${formatNumber(item.km_recorrido)}</td>
-            <td>${item.lugar_evento || ""}</td>
-            <td>${item.expediente || ""}</td>
-            <td>${item.informe || ""}</td>
-            <td>${item.estado || ""}</td>
-            <td>${formatNumber(item.monto)}</td>
-            <td>${item.pagado || ""}</td>
-            <td class="space-x-2">
-              <button onclick="editar(${index})" class="text-blue-600 hover:underline">Editar</button>
-              <button onclick="eliminar(${index})" class="text-red-600 hover:underline">Eliminar</button>
-            </td>
-          </tr>`;
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td class="p-2">${item.fecha || ""}</td>
+          <td class="p-2">${item.fecha_viaje || ""}</td>
+          <td class="p-2">${item.actividad || ""}</td>
+          <td class="p-2">${item.institucion || ""}</td>
+          <td class="p-2">${item.km_salida || ""}</td>
+          <td class="p-2">${item.km_regreso || ""}</td>
+          <td class="p-2">${item.km_recorrido || ""}</td>
+          <td class="p-2">${item.lugar_evento || ""}</td>
+          <td class="p-2">${item.expediente || ""}</td>
+          <td class="p-2">${item.informe || ""}</td>
+          <td class="p-2">${item.estado || ""}</td>
+          <td class="p-2">${item.monto || ""}</td>
+          <td class="p-2">${item.pagado || ""}</td>
+          <td class="p-2">
+            <button onclick="editar(${index})" class="bg-yellow-400 px-2 py-1 rounded mr-1">Editar</button>
+            <button onclick="eliminar(${index})" class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+          </td>
+        `;
+        tabla.appendChild(fila);
       });
     }
 
@@ -104,7 +108,7 @@
           document.getElementById(key).value = item[key];
         }
       }
-      eliminar(index); // elimina para volver a guardar como nuevo
+      document.getElementById("editIndex").value = index;
     }
 
     function eliminar(index) {
@@ -112,21 +116,9 @@
       guardarTodo();
     }
 
-    async function guardarTodo() {
-      const res = await fetch(API_POST, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registros),
-      });
-      if (res.ok) {
-        cargarDatos();
-      } else {
-        alert("Error al guardar.");
-      }
-    }
-
     document.getElementById("activity-form").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const editIndex = document.getElementById("editIndex").value;
       const km_salida = parseFloat(document.getElementById("km_salida").value) || 0;
       const km_regreso = parseFloat(document.getElementById("km_regreso").value) || 0;
 
@@ -145,28 +137,48 @@
         monto: parseFloat(document.getElementById("monto").value) || 0,
         pagado: document.getElementById("pagado").value,
       };
-      registros.push(nuevoRegistro);
-      guardarTodo();
+
+      if (editIndex) {
+        registros[editIndex] = nuevoRegistro;
+        document.getElementById("editIndex").value = "";
+      } else {
+        registros.push(nuevoRegistro);
+      }
+
+      await guardarTodo();
       e.target.reset();
     });
 
-    function exportarCSV() {
-      const encabezado = Object.keys(registros[0] || {}).join(",");
-      const filas = registros.map(row =>
-        Object.values(row).map(val => `"${val ?? ""}"`).join(",")
-      );
-      const csvContent = [encabezado, ...filas].join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "actividades.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    async function guardarTodo() {
+      try {
+        const res = await fetch("/.netlify/functions/guardar", {
+          method: "POST",
+          body: JSON.stringify(registros),
+        });
+        if (res.ok) {
+          mostrarRegistros();
+        } else {
+          console.error("Error al guardar");
+        }
+      } catch (error) {
+        console.error("Error al enviar datos:", error);
+      }
     }
 
-    cargarDatos();
+    function exportarExcel() {
+      if (registros.length === 0) {
+        alert("No hay registros para exportar.");
+        return;
+      }
+
+      const ws = XLSX.utils.json_to_sheet(registros);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Actividades");
+
+      XLSX.writeFile(wb, "actividades.xlsx");
+    }
+
+    cargarRegistros();
   </script>
 </body>
 </html>
