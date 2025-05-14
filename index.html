@@ -11,10 +11,8 @@
     <h1 class="text-3xl font-bold mb-4 text-center">Registro de Actividades</h1>
 
     <form id="activity-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded shadow">
-      <!-- campos del formulario -->
-      <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha" />
-      <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha de Viaje" />
-      <input type="text" id="actividad" placeholder="Actividad" required class="border p-2 rounded" />
+      <input type="date" id="fecha" required class="border p-2 rounded" placeholder="Fecha Inicial del Viaje" />
+      <input type="date" id="fecha_viaje" class="border p-2 rounded" placeholder="Fecha Final del Viaje" />
       <input type="text" id="institucion" placeholder="Institución" required class="border p-2 rounded" />
       <input type="number" id="km_salida" placeholder="Km Salida" class="border p-2 rounded" />
       <input type="number" id="km_regreso" placeholder="Km Regreso" class="border p-2 rounded" />
@@ -28,15 +26,13 @@
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 col-span-2 md:col-span-4">Guardar</button>
     </form>
 
-    <!-- Tabla con scroll horizontal y celdas expandibles -->
     <div class="overflow-x-auto bg-white p-4 rounded shadow">
       <button onclick="exportarCSV()" class="mb-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Exportar CSV</button>
       <table class="min-w-full table-auto text-sm">
         <thead class="bg-gray-200">
           <tr>
-            <th>Fecha</th>
-            <th>Fecha Viaje</th>
-            <th>Actividad</th>
+            <th>Fecha Inicial del Viaje</th>
+            <th>Fecha Final del Viaje</th>
             <th>Institución</th>
             <th>Km Salida</th>
             <th>Km Regreso</th>
@@ -83,7 +79,6 @@
           <tr>
             <td>${item.fecha}</td>
             <td>${item.fecha_viaje || ""}</td>
-            <td>${item.actividad}</td>
             <td>${item.institucion}</td>
             <td>${item.km_salida || ""}</td>
             <td>${item.km_regreso || ""}</td>
@@ -140,7 +135,6 @@
       const nuevoRegistro = {
         fecha: document.getElementById("fecha").value,
         fecha_viaje: document.getElementById("fecha_viaje").value,
-        actividad: document.getElementById("actividad").value,
         institucion: document.getElementById("institucion").value,
         km_salida: document.getElementById("km_salida").value,
         km_regreso: document.getElementById("km_regreso").value,
