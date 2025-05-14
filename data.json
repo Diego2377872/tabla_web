@@ -8,5 +8,20 @@
     "fecha": "2025-05-13",
     "actividad": "Permiso ",
     "institucion": "Clínica "
-  }
+  },
+  [
+    {
+      "fecha": "2025-05-15",
+      "fecha_viaje": "2025-05-16",
+      "actividad": "Reunion DEAG",
+      "institucion": "Home",
+      "km_salida": "10000",
+      "lugar_evento": "dfo",
+      "expediente": "10000",
+      "informe": "actividad",
+      "estado": "control",
+      "monto": "111111",
+      "pagado": "no"
+    }
+  ]
 ]
