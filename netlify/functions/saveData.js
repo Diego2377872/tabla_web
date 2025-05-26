@@ -16,34 +16,44 @@ exports.handler = async function (event, context) {
   const octokit = new Octokit({ auth: token });
 
   try {
-    // Obtenemos el SHA actual del archivo si existe
+    // Nuevo dato desde el formulario
+    const nuevoRegistro = JSON.parse(event.body);
+
+    // Obtenemos el archivo actual (si existe)
+    let registros = [];
     let sha;
+
     try {
       const response = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
         owner,
         repo,
         path,
       });
+
+      const content = Buffer.from(response.data.content, "base64").toString("utf-8");
+      registros = JSON.parse(content);
       sha = response.data.sha;
+
     } catch (error) {
-      if (error.status !== 404) {
-        throw error;
-      }
-      // El archivo no existe aún; lo crearemos sin SHA
+      if (error.status !== 404) throw error;
+      // Si el archivo no existe, empezamos con un array vacío
+      registros = [];
     }
 
-    const content = Buffer.from(event.body).toString("base64");
+    // Agregamos el nuevo registro al array
+    registros.push(nuevoRegistro);
 
-    const commitMessage = "Actualizar data.json desde formulario web";
+    const newContent = Buffer.from(JSON.stringify(registros, null, 2)).toString("base64");
+    const commitMessage = "Agregar nuevo registro desde formulario web";
 
-    // Guardamos el nuevo contenido en el archivo data.json
+    // Guardamos el nuevo contenido en GitHub
     await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
       owner,
       repo,
       path,
       message: commitMessage,
-      content,
-      sha, // si no hay SHA, GitHub creará el archivo
+      content: newContent,
+      sha,
     });
 
     return {
