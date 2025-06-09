@@ -54,5 +54,19 @@
     "estado": "",
     "monto": "",
     "pagado": ""
+  },
+  {
+    "fecha": "2025-06-09",
+    "fecha_viaje": "2025-06-09",
+    "institucion": "DGP",
+    "km_salida": "73746",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "DGP",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
