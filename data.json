@@ -82,5 +82,19 @@
     "estado": "",
     "monto": "",
     "pagado": ""
+  },
+  {
+    "fecha": "2025-06-24",
+    "fecha_viaje": "2025-06-25",
+    "institucion": "AEP",
+    "km_salida": "75955",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
