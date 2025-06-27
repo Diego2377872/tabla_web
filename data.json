@@ -63,10 +63,10 @@
     "km_regreso": "73903",
     "km_recorrido": "157",
     "lugar_evento": "SEN",
-    "expediente": "",
+    "expediente": "16898",
     "informe": "Curso de Capacitación en Gestión de Riesgos Climáticos",
     "estado": "",
-    "monto": "",
+    "monto": "1291000",
     "pagado": "No"
   },
   {
@@ -88,11 +88,11 @@
     "fecha_viaje": "2025-06-25",
     "institucion": "AEP",
     "km_salida": "75955",
-    "km_regreso": "76114",
-    "km_recorrido": "159",
+    "km_regreso": "",
+    "km_recorrido": "",
     "lugar_evento": "",
     "expediente": "",
-    "informe": "Reunión de trabajo, implementación del Censo Agropecuario en la plataforma ASÍS FAO ",
+    "informe": "",
     "estado": "",
     "monto": "",
     "pagado": ""
