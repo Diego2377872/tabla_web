@@ -88,13 +88,13 @@
     "fecha_viaje": "2025-06-25",
     "institucion": "AEP",
     "km_salida": "75955",
-    "km_regreso": "",
-    "km_recorrido": "",
+    "km_regreso": "76120",
+    "km_recorrido": "165",
     "lugar_evento": "",
     "expediente": "",
     "informe": "Reunión de trabajo implementación implementación del censo Agropecuario en la plataforma ASÍS-FAO",
     "estado": "",
     "monto": "",
-    "pagado": ""
+    "pagado": "no"
   }
 ]
