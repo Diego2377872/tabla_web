@@ -96,5 +96,19 @@
     "estado": "",
     "monto": "",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-06-30",
+    "fecha_viaje": "2025-07-02",
+    "institucion": "DGP",
+    "km_salida": "76503",
+    "km_regreso": "76673",
+    "km_recorrido": "170",
+    "lugar_evento": "Dirección General de Planificación",
+    "expediente": "",
+    "informe": "Reunión de trabajo para Elaboración de Informe sobre daños y perdidas por heladas agrometeorológicas",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
