@@ -124,5 +124,19 @@
     "estado": "Esperando documentos respaldatorios",
     "monto": "2152000",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-07-22",
+    "fecha_viaje": "2025-07-23",
+    "institucion": "FAO",
+    "km_salida": "78011",
+    "km_regreso": "78181",
+    "km_recorrido": "170",
+    "lugar_evento": "Oficina Central FAO",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": "No "
   }
 ]
