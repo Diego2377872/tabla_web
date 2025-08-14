@@ -138,5 +138,19 @@
     "estado": "",
     "monto": "",
     "pagado": "No "
+  },
+  {
+    "fecha": "2025-08-04",
+    "fecha_viaje": "2025-08-08",
+    "institucion": "Municipalidades",
+    "km_salida": "78715",
+    "km_regreso": "79793",
+    "km_recorrido": "1078",
+    "lugar_evento": "Municipalidades del Departamento de San Pedro",
+    "expediente": "",
+    "informe": "Presentacion del Plan de Acción Anticipatorias ante sequia agricola",
+    "estado": "Falta entregar documentos respaldatorios",
+    "monto": "",
+    "pagado": "No"
   }
 ]
