@@ -166,5 +166,19 @@
     "estado": "",
     "monto": "3013000",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-08-25",
+    "fecha_viaje": "2025-08-29",
+    "institucion": "Municipalidades",
+    "km_salida": "",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "",
+    "expediente": "",
+    "informe": "",
+    "estado": "Falta entregar documentos respaldatorios",
+    "monto": "",
+    "pagado": ""
   }
 ]
