@@ -180,5 +180,19 @@
     "estado": "Falta entregar documentos respaldatorios",
     "monto": "",
     "pagado": ""
+  },
+  {
+    "fecha": "2025-09-11",
+    "fecha_viaje": "2025-09-12",
+    "institucion": "Hotel La Misión ",
+    "km_salida": "81528",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
