@@ -194,5 +194,19 @@
     "estado": "Falta entregar documentos respaldatorios. Reportes y 1 ticket de peaje",
     "monto": "",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-09-24",
+    "fecha_viaje": "2025-09-26",
+    "institucion": "Municipalidad ",
+    "km_salida": "82002",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "Municipalidad de San Juan Nepomuceno ",
+    "expediente": "",
+    "informe": "Participación en el foro nacional de acciones anticipatoria ante eventos extremos climáticos ",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
