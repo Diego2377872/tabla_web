@@ -208,5 +208,19 @@
     "estado": "Control y seguimiento ",
     "monto": "1936746",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-10-21",
+    "fecha_viaje": "2025-10-23",
+    "institucion": "DMH ",
+    "km_salida": "86454",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "DINAC ",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
