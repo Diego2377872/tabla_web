@@ -210,20 +210,6 @@
     "pagado": "No"
   },
   {
-    "fecha": "2025-10-21",
-    "fecha_viaje": "2025-10-23",
-    "institucion": "DMH ",
-    "km_salida": "86454",
-    "km_regreso": "86619",
-    "km_recorrido": "165",
-    "lugar_evento": "Diección de Meteorología e Hidrología ",
-    "expediente": "",
-    "informe": "",
-    "estado": "",
-    "monto": "",
-    "pagado": ""
-  },
-  {
     "fecha": "2025-10-13",
     "fecha_viaje": "2025-10-17",
     "institucion": "San Juan Nepomuceno, Abai, Tavai",
@@ -231,6 +217,20 @@
     "km_regreso": "84018",
     "km_recorrido": "550",
     "lugar_evento": "Municipalidades",
+    "expediente": "",
+    "informe": "Monitoreo de fincas y Taller de Planes de Acción Anticipatoria, Proyecto FAO",
+    "estado": "",
+    "monto": "",
+    "pagado": "No"
+  },
+  {
+    "fecha": "2025-10-21",
+    "fecha_viaje": "2025-10-23",
+    "institucion": "DMH ",
+    "km_salida": "86454",
+    "km_regreso": "86619",
+    "km_recorrido": "165",
+    "lugar_evento": "Diección de Meteorología e Hidrología ",
     "expediente": "",
     "informe": "",
     "estado": "",
