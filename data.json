@@ -236,5 +236,19 @@
     "estado": "",
     "monto": "",
     "pagado": "No"
+  },
+  {
+    "fecha": "2025-10-27",
+    "fecha_viaje": "2025-10-30",
+    "institucion": "CDA San Pedro ",
+    "km_salida": "84710",
+    "km_regreso": "",
+    "km_recorrido": "",
+    "lugar_evento": "",
+    "expediente": "",
+    "informe": "",
+    "estado": "",
+    "monto": "",
+    "pagado": ""
   }
 ]
